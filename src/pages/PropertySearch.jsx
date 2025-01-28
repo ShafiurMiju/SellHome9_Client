@@ -144,6 +144,9 @@ const PropertySearch = () => {
             <Link to="/reviews" className="text-gray-600 hover:text-teal-600">
               Reviews
             </Link>
+            <Link to="/dealCheck" className="text-gray-600 hover:text-teal-600">
+              Deal Check
+            </Link>
           </div>
         </div>
         <div className="flex gap-4">

@@ -6,6 +6,7 @@ import OwnerPortfolioView from "../pages/OwnerPortfolioView";
 import WhoWeServe from "../pages/WhoWeServe";
 import Reviews from "../pages/Reviews";
 import PropertySearch from "../pages/PropertySearch";
+import DealCheck from "../pages/DealCheck";
 // import Coms from "../pages/Coms";
 // import Test from "../pages/FullDropDown";
 // import PropertyHistory from "../pages/PropertyHistory";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/property",
     element: <OwnerPortfolioView />,
+  },
+  {
+    path: "/dealCheck",
+    element: <DealCheck />,
   },
   // {
   //   path: "/property-history",
