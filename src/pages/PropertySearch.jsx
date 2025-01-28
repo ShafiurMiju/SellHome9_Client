@@ -21,7 +21,7 @@ const PropertySearch = () => {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${id}`, {
+      const response = await fetch(`https://sell-home9-server.vercel.app/api/user/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const PropertySearch = () => {
   // Fetch autocomplete suggestions
   const fetchSuggestions = async (input) => {
     try {
-      const response = await fetch("http://localhost:3000/api/autocomplete", {
+      const response = await fetch("https://sell-home9-server.vercel.app/api/autocomplete", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const PropertySearch = () => {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:3000/api/property-detail", {
+      const response = await fetch("https://sell-home9-server.vercel.app/api/property-detail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

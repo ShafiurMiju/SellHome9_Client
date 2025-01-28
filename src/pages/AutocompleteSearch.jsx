@@ -13,7 +13,7 @@ const AutocompleteSearch = () => {
       setError(null);
 
       // Make API call to fetch suggestions
-      const response = await axios.post("http://localhost:3000/api/autocomplete", {
+      const response = await axios.post("https://sell-home9-server.vercel.app/api/autocomplete", {
         search: input,
       });
 

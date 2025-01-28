@@ -44,7 +44,7 @@ const OwnerPortfolioView = () => {
     setError(null);
 
     try {
-      const response = await fetch(`http://localhost:3000/api/user/${id}`, {
+      const response = await fetch(`https://sell-home9-server.vercel.app/api/user/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("http://localhost:3000/api/skiptrace-swap", {
+      const response = await fetch("https://sell-home9-server.vercel.app/api/skiptrace-swap", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -179,7 +179,7 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("http://localhost:3000/api/skiptrace", {
+      const response = await fetch("https://sell-home9-server.vercel.app/api/skiptrace", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -207,7 +207,7 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("http://localhost:3000/api/property-comps", {
+      const response = await fetch("https://sell-home9-server.vercel.app/api/property-comps", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
