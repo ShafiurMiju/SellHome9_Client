@@ -20,6 +20,7 @@ import ShowPropertyModal from "../component/ShowPropertyModal";
 import CompsPopup from "../component/CompsPopup";
 import Loading from "../component/Loading";
 import Comps from "../component/comps";
+import LowCreditModal from "../component/LowCreditModal";
 
 const OwnerPortfolioView = () => {
   const location = useLocation();
@@ -35,6 +36,8 @@ const OwnerPortfolioView = () => {
   const [userInfo, setUserInfo] = useState(null); // User information
 
   const [error, setError] = useState(null);
+
+  const [showCreditPopup, setShowCreditPopup] = useState(false); // Comps popup visibility
 
   const userId = JSON.parse(localStorage.getItem("user"));
 
@@ -192,6 +195,17 @@ const OwnerPortfolioView = () => {
       }
 
       const data = await response.json();
+
+      if (data.message === "Insufficient Credit") {
+        setShowCreditPopup(true); // Show the confirmation popup
+
+        setShowText(false); // Show "Skip Trace Again" button
+        buttonRef.current.style.display = ""; // Hide "Skip Trace" button
+
+
+        return;
+      }
+
       setOwnersData(data); // Store the result data in state
     } catch (err) {
       console.error("Error during search:", err.message);
@@ -220,6 +234,12 @@ const OwnerPortfolioView = () => {
       }
 
       const data = await response.json();
+
+      if (data.message === "Insufficient Credit") {
+        setShowCreditPopup(true); // Show the confirmation popup
+        return;
+      }
+
       setCompsData(data); // Store the result data in state
     } catch (err) {
       console.error("Error during search:", err.message);
@@ -231,60 +251,41 @@ const OwnerPortfolioView = () => {
   };
 
   const handleCompsTraceTabClick = async () => {
-    setShowCompsPopup(true); // Show the confirmation popup
+    try {
+      setLoading(true);
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/check-userAction",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Ensure `selected` is defined
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch property data");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      if (!data.success) {
+        setLoading(false);
+        setShowCompsPopup(true); // Show the confirmation popup
+      } else {
+        handleCompsApi();
+      }
+    } catch (err) {
+      console.error("Error during search:", err.message);
+    }
+
+    //setShowCompsPopup(true); // Show the confirmation popup
   };
 
   const cancelPopup = () => {
     setShowPropertyPopup(false); // Close the popup without making the API call
-  };
-
-  // property details =======
-
-  // State for collapsible sections
-  const [openSections, setOpenSections] = useState({
-    characteristics: true,
-    mortgage: false,
-    facts: false,
-  });
-
-  const property = {
-    address: apiResponse?.data?.data.propertyInfo.address.label,
-    location: "Freedom, OK 73842",
-    price: 152415,
-    beds: apiResponse?.data?.data.propertyInfo.bedrooms,
-    baths: apiResponse?.data?.data.propertyInfo.bathrooms,
-    sqft: apiResponse?.data?.data.propertyInfo.buildingSquareFeet,
-    image:
-      "https://img.freepik.com/free-photo/cityscape-wuxi_1127-3968.jpg?ga=GA1.1.1644760819.1734589298&semt=ais_tags_boosted",
-    characteristics: [
-      {
-        label: "Living Area",
-        value: apiResponse?.data?.data.propertyInfo.buildingSquareFeet,
-      },
-      {
-        label: "Year Built",
-        value: apiResponse?.data?.data.propertyInfo.yearBuilt,
-      },
-      { label: "# of Units", value: "0" },
-      {
-        label: "Bedrooms",
-        value: apiResponse?.data?.data.propertyInfo.bedrooms,
-      },
-      {
-        label: "Bathrooms",
-        value: apiResponse?.data?.data.propertyInfo.bathrooms,
-      },
-      {
-        label: "Heating Type",
-        value: apiResponse?.data?.data.propertyInfo.heatingType,
-      },
-      {
-        label: "Pool",
-        value: apiResponse?.data?.data?.propertyInfo?.pool ? "Yes" : "No",
-      },
-      { label: "Property Type", value: apiResponse?.data?.data.propertyType },
-      { label: "Stories", value: apiResponse?.data?.data.propertyInfo.stories },
-    ],
   };
 
   // Toggle function for sections
@@ -414,6 +415,13 @@ const OwnerPortfolioView = () => {
           confirmComps={confirmComps}
           cancelComps={cancelComps}
           handleSkipTraceTabClickSwap={handleSkipTraceTabClickSwap}
+        />
+      )}
+
+      {showCreditPopup && (
+        <LowCreditModal
+          isOpen={showCreditPopup}
+          onClose={() => setShowCreditPopup(false)}
         />
       )}
 

@@ -10,8 +10,24 @@ const PropertySearch = () => {
   const [suggestions, setSuggestions] = useState([]);
   const [userInfo, setUserInfo] = useState(null); // User information
   const navigate = useNavigate();
-  const [crediError, setCreditError] = useState('')
-  const [credtPopup, setCreditPopup] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [showCreditPopup, setShowCreditPopup] = useState(false); // Comps popup visibility
+
+  useEffect(() => {
+    if (isOpen) {
+      // Dynamically load the script when the popup is open
+      const script = document.createElement("script");
+      script.src = "https://link.msgsndr.com/js/form_embed.js";
+      script.async = true;
+      document.body.appendChild(script);
+
+      // Clean up the script on component unmount
+      return () => {
+        document.body.removeChild(script);
+      };
+    }
+  }, [isOpen]);
 
   const userId = JSON.parse(localStorage.getItem("user"));
 
@@ -92,27 +108,29 @@ const PropertySearch = () => {
     setError(null);
 
     try {
-      const response = await fetch("https://sell-home9-server.vercel.app/api/property-detail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(selected),
-      });
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/property-detail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(selected),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch property data");
       }
 
-      
-
       const data = await response.json();
 
-      console.log(data)
+      console.log(data);
 
-      if(data.message==='Insufficient Credit'){
-        alert("Insufficient Credit")
-        retuen
+      if (data.message === "Insufficient Credit") {
+        setShowCreditPopup(true); // Show the confirmation popup
+
+        return;
       }
 
       // Navigate to the results page with the API response
@@ -146,6 +164,12 @@ const PropertySearch = () => {
             </Link>
             <Link to="/dealCheck" className="text-gray-600 hover:text-teal-600">
               Deal Check
+            </Link>
+            <Link
+              className="text-gray-600 hover:text-teal-600"
+              onClick={() => setIsOpen(true)}
+            >
+              Buy Credit
             </Link>
           </div>
         </div>
@@ -210,22 +234,81 @@ const PropertySearch = () => {
         </div>
 
         {error && <p className="text-red-500 mt-4">{error}</p>}
-
-        {credtPopup && (
-        <LowCreditModal
-          setCreditPopup={setCreditPopup}
-          errorMessage={crediError}
-          userInfo={userInfo}
-          loading={loading}
-          
-        />
-      )}
       </div>
 
+      {showCreditPopup && (
+        <LowCreditModal
+          isOpen={showCreditPopup}
+          onClose={() => setShowCreditPopup(false)}
+        />
+      )}
 
+      {/* Popup Modal */}
+      {isOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+          onClick={() => setIsOpen(false)}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              borderRadius: "10px",
+              padding: "20px",
+              position: "relative",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setIsOpen(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+            >
+              ✖
+            </button>
+            <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
+              <iframe
+                src="https://api.leadconnectorhq.com/widget/form/5TRgrAZpnidWTJiiwc4U"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                  borderRadius: "3px",
+                }}
+                id="inline-5TRgrAZpnidWTJiiwc4U"
+                data-layout="{'id':'INLINE'}"
+                data-trigger-type="alwaysShow"
+                data-trigger-value=""
+                data-activation-type="alwaysActivated"
+                data-activation-value=""
+                data-deactivation-type="neverDeactivate"
+                data-deactivation-value=""
+                data-form-name="Credit Purchase Sell Home9"
+                data-height="941"
+                data-layout-iframe-id="inline-5TRgrAZpnidWTJiiwc4U"
+                data-form-id="5TRgrAZpnidWTJiiwc4U"
+                title="Credit Purchase Sell Home9"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-
-    
   );
 };
 

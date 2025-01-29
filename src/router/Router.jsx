@@ -7,6 +7,7 @@ import WhoWeServe from "../pages/WhoWeServe";
 import Reviews from "../pages/Reviews";
 import PropertySearch from "../pages/PropertySearch";
 import DealCheck from "../pages/DealCheck";
+import CreditPurchase from "../pages/creditPurchase";
 // import Coms from "../pages/Coms";
 // import Test from "../pages/FullDropDown";
 // import PropertyHistory from "../pages/PropertyHistory";
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/dealCheck",
     element: <DealCheck />,
+  },
+  {
+    path: "/creditPurchase",
+    element: <CreditPurchase />,
   },
   // {
   //   path: "/property-history",
