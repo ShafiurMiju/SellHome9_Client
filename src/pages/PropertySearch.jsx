@@ -165,9 +165,8 @@ const PropertySearch = () => {
             <Link to="/dealCheck" className="text-gray-600 hover:text-teal-600">
               Deal Check
             </Link>
-            <Link
+            <Link to="/creditPurchase"
               className="text-gray-600 hover:text-teal-600"
-              onClick={() => setIsOpen(true)}
             >
               Buy Credit
             </Link>
@@ -243,71 +242,6 @@ const PropertySearch = () => {
         />
       )}
 
-      {/* Popup Modal */}
-      {isOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: 1000,
-          }}
-          onClick={() => setIsOpen(false)}
-        >
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "10px",
-              padding: "20px",
-              position: "relative",
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setIsOpen(false)}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                fontSize: "16px",
-                cursor: "pointer",
-              }}
-            >
-              ✖
-            </button>
-            <div style={{ width: "100%", maxWidth: "1200px", margin: "auto" }}>
-              <iframe
-                src="https://api.leadconnectorhq.com/widget/form/5TRgrAZpnidWTJiiwc4U"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                  borderRadius: "3px",
-                }}
-                id="inline-5TRgrAZpnidWTJiiwc4U"
-                data-layout="{'id':'INLINE'}"
-                data-trigger-type="alwaysShow"
-                data-trigger-value=""
-                data-activation-type="alwaysActivated"
-                data-activation-value=""
-                data-deactivation-type="neverDeactivate"
-                data-deactivation-value=""
-                data-form-name="Credit Purchase Sell Home9"
-                data-height="941"
-                data-layout-iframe-id="inline-5TRgrAZpnidWTJiiwc4U"
-                data-form-id="5TRgrAZpnidWTJiiwc4U"
-                title="Credit Purchase Sell Home9"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

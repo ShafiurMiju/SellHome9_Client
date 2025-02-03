@@ -146,7 +146,7 @@ const SkipTrace = ({
                 {!OwnersDetails ? (
                   <div>-- years old</div>
                 ) : (
-                  <div>{OwnersDetails?.output?.demographics?.age || "-- years old"} years old</div>
+                  <div>{OwnersDetails?.output?.demographics?.age} years old</div>
                 )}
               </div>
             </div>

@@ -1,80 +1,76 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreditPurchase = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    navigate(-1); // Goes to the previous page
+  };
+
+  const handlePurchase = () => {
+    alert("Purchase button clicked!");
+  };
 
   useEffect(() => {
-    if (isOpen) {
-      // Dynamically load the script when the popup is open
-      const script = document.createElement("script");
-      script.src = "https://link.msgsndr.com/js/form_embed.js";
-      script.async = true;
-      document.body.appendChild(script);
+    // Listen for messages from the iframe
+    const messageHandler = (event) => {
+      // Ensure the message is from the correct origin (optional)
+      if (event.origin === 'https://api.leadconnectorhq.com/widget/form/5TRgrAZpnidWTJiiwc4U') {  // Adjust the origin based on the iframe URL
+        if (event.data === 'purchase_clicked') {
+          handlePurchase();
+        }
+      }
+    };
 
-      // Clean up the script on component unmount
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [isOpen]);
+    // Add event listener for messages
+    window.addEventListener("message", messageHandler);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener("message", messageHandler);
+    };
+  }, []);
 
   return (
     <>
-      {/* Popup Modal */}
-      {isOpen && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-          }}
-          onClick={() => setIsOpen(false)} // Close popup on background click
-        >
-          <div
-            style={{
-              width: "90%",
-              maxWidth: "800px",
-              backgroundColor: "#fff",
-              borderRadius: "10px",
-              padding: "20px",
-              position: "relative",
-            }}
-            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-full max-w-4xl p-8">
+          {/* Back Button */}
+          <button
+            onClick={handleBack}
+            className="text-teal-500 font-semibold hover:text-teal-600 mb-4 inline-block"
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setIsOpen(false)}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "18px",
-                cursor: "pointer",
-              }}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5 inline-block mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              strokeWidth="2"
+              aria-hidden="true"
             >
-              ✖
-            </button>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Back
+          </button>
 
-            {/* Embedded Form */}
+          <div className="relative">
             <iframe
               src="https://api.leadconnectorhq.com/widget/form/5TRgrAZpnidWTJiiwc4U"
               style={{
                 width: "100%",
-                height: "500px",
+                height: "85vh",
                 border: "none",
-                borderRadius: "5px",
+                borderRadius: "8px",
+                overflow: "hidden", // Hide scrollbars
               }}
               id="inline-5TRgrAZpnidWTJiiwc4U"
-              data-layout='{"id":"INLINE"}'
+              data-layout="{'id':'INLINE'}"
               data-trigger-type="alwaysShow"
               data-trigger-value=""
               data-activation-type="alwaysActivated"
@@ -89,7 +85,9 @@ const CreditPurchase = () => {
             ></iframe>
           </div>
         </div>
-      )}
+      </div>
+
+      <script src="https://link.msgsndr.com/js/form_embed.js"></script>
     </>
   );
 };

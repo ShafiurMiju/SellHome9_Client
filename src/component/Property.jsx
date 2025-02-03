@@ -90,12 +90,13 @@ const Property = ({ property }) => {
       },
       {
         label: "Subdivision Name",
-        value: lotInfo?.subdivision
-          ? lotInfo?.subdivision
-          : "--",
+        value: lotInfo?.subdivision ? lotInfo?.subdivision : "--",
       },
       { label: "APN", value: lotInfo?.apn },
-      { label: "Property Class", value: lotInfo?.landUse ? lotInfo?.landUse : "--"},
+      {
+        label: "Property Class",
+        value: lotInfo?.landUse ? lotInfo?.landUse : "--",
+      },
       { label: "County Land Use Code", value: propertyInfo?.propertyUseCode },
       { label: "Property Type", value: data?.propertyType },
       { label: "Census Tract", value: lotInfo?.censusTract },
@@ -251,16 +252,22 @@ const Property = ({ property }) => {
               </button>
               {openSections.lastMortgage && (
                 <div className="p-4 border-t">
-                  <div className="px-4 py-2 ">
-                    {properties?.lastMortgage?.map((item, index) => (
-                      <div
-                        key={index}
-                        className="flex justify-between py-2 border-b last:border-0"
-                      >
-                        <span className="text-gray-600">{item.label}</span>
-                        <span className="font-medium">{item.value}</span>
-                      </div>
-                    ))}
+                  <div className="px-4 py-2">
+                    {properties?.lastMortgage==null ? (
+                      properties.lastMortgage.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between py-2 border-b last:border-0"
+                        >
+                          <span className="text-gray-600">{item.label}</span>
+                          <span className="font-medium">{item.value}</span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-gray-500">
+                        No mortgage data available.
+                      </p>
+                    )}
                   </div>
                 </div>
               )}

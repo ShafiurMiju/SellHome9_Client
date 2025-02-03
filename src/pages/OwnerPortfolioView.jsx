@@ -21,6 +21,7 @@ import CompsPopup from "../component/CompsPopup";
 import Loading from "../component/Loading";
 import Comps from "../component/comps";
 import LowCreditModal from "../component/LowCreditModal";
+import PropertyHistory from "../component/PropertyHistory";
 
 const OwnerPortfolioView = () => {
   const location = useLocation();
@@ -47,12 +48,15 @@ const OwnerPortfolioView = () => {
     setError(null);
 
     try {
-      const response = await fetch(`https://sell-home9-server.vercel.app/api/user/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://sell-home9-server.vercel.app/api/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -154,13 +158,16 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("https://sell-home9-server.vercel.app/api/skiptrace-swap", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // Ensure `selected` is defined
-      });
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/skiptrace-swap",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Ensure `selected` is defined
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch property data");
@@ -182,13 +189,16 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("https://sell-home9-server.vercel.app/api/skiptrace", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // Ensure `selected` is defined
-      });
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/skiptrace",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Ensure `selected` is defined
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch property data");
@@ -201,7 +211,6 @@ const OwnerPortfolioView = () => {
 
         setShowText(false); // Show "Skip Trace Again" button
         buttonRef.current.style.display = ""; // Hide "Skip Trace" button
-
 
         return;
       }
@@ -221,13 +230,16 @@ const OwnerPortfolioView = () => {
       setLoading(true);
       setError(null); // Reset error state before making the request
 
-      const response = await fetch("https://sell-home9-server.vercel.app/api/property-comps", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload), // Ensure `selected` is defined
-      });
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/property-comps",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload), // Ensure `selected` is defined
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch property data");
@@ -284,6 +296,17 @@ const OwnerPortfolioView = () => {
     //setShowCompsPopup(true); // Show the confirmation popup
   };
 
+  const handleHistoryTabClick = () => {
+    try{
+      setLoading(true);
+      setActiveTab("history");
+      setLoading(false);
+
+    }catch(err){
+      console.error("Error during search:", err.message);
+    }
+  }
+
   const cancelPopup = () => {
     setShowPropertyPopup(false); // Close the popup without making the API call
   };
@@ -336,7 +359,15 @@ const OwnerPortfolioView = () => {
             >
               Comps
             </button>
-            <button className="px-4 py-2 text-gray-500 hover:text-gray-700">
+            <button
+              onClick={() => handleHistoryTabClick()}
+              // className="px-4 py-2 text-teal-600 border-b-2 border-teal-600"
+              className={`px-4 py-2 ${
+                activeTab === "history"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
               History
             </button>
             <button className="px-4 py-2 text-gray-500 hover:text-gray-700">
@@ -389,6 +420,7 @@ const OwnerPortfolioView = () => {
       )}
 
       {activeTab === "property" && <Property property={output} />}
+      {activeTab === "history" && <PropertyHistory history={output}/>}
 
       {/* Confirmation Popup */}
       {showSkipTracePopup && (
