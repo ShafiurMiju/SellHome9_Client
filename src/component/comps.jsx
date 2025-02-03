@@ -11,7 +11,9 @@ const Dropdown = ({ options, selected, onSelect, isOpen, toggleDropdown }) => {
       >
         <span>{selected}</span>
         <svg
-          className={`w-4 h-4 transform transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`w-4 h-4 transform transition-transform ${
+            isOpen ? "rotate-180" : ""
+          }`}
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
@@ -108,8 +110,18 @@ const Comps = ({ ownerInfo, CompsData }) => {
     "Within 2 Mile",
     "Within 3 Mile",
   ];
-  const bedsOptions = ["Any Beds", "Bedrooms ± 1", "Bedrooms ± 2", "Bedrooms ± 3"];
-  const bathsOptions = ["Any Baths", "Bathrooms ± 1", "Bathrooms ± 2", "Bathrooms ± 3"];
+  const bedsOptions = [
+    "Any Beds",
+    "Bedrooms ± 1",
+    "Bedrooms ± 2",
+    "Bedrooms ± 3",
+  ];
+  const bathsOptions = [
+    "Any Baths",
+    "Bathrooms ± 1",
+    "Bathrooms ± 2",
+    "Bathrooms ± 3",
+  ];
   const yearBuiltOptions = [
     "Any Year Built",
     "Within 5 Years",
@@ -155,7 +167,9 @@ const Comps = ({ ownerInfo, CompsData }) => {
 
       // Filter by status
       if (selectedSell !== "Any Status") {
-        filtered = filtered.filter((property) => property.status === selectedSell);
+        filtered = filtered.filter(
+          (property) => property.status === selectedSell
+        );
       }
 
       // Filter by year (example logic, adjust as needed)
@@ -194,7 +208,8 @@ const Comps = ({ ownerInfo, CompsData }) => {
         const yearsRange = parseInt(selectedYearBuilt.split(" ")[1]); // Extract range
         const subjectYearBuilt = CompsData.data.subject.propertyInfo.yearBuilt;
         filtered = filtered.filter(
-          (property) => Math.abs(property.yearBuilt - subjectYearBuilt) <= yearsRange
+          (property) =>
+            Math.abs(property.yearBuilt - subjectYearBuilt) <= yearsRange
         );
       }
 
@@ -288,21 +303,41 @@ const Comps = ({ ownerInfo, CompsData }) => {
             <thead>
               <tr className="bg-gray-50 border-b">
                 <th className="w-8 p-4"></th>
-                <th className="text-left p-4 font-medium text-gray-600">Address</th>
-                <th className="text-left p-4 font-medium text-gray-600">Status</th>
-                <th className="text-left p-4 font-medium text-gray-600">Date</th>
-                <th className="text-left p-4 font-medium text-gray-600">Price</th>
-                <th className="text-left p-4 font-medium text-gray-600">Price/SqFt</th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Address
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Status
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Date
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Price
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Price/SqFt
+                </th>
                 <th className="text-left p-4 font-medium text-gray-600">Bed</th>
-                <th className="text-left p-4 font-medium text-gray-600">Bath</th>
-                <th className="text-left p-4 font-medium text-gray-600">SqFt</th>
-                <th className="text-left p-4 font-medium text-gray-600">Lot SqFt</th>
-                <th className="text-left p-4 font-medium text-gray-600">Year Built</th>
-                <th className="text-left p-4 font-medium text-gray-600">Distance</th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Bath
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  SqFt
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Lot SqFt
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Year Built
+                </th>
+                <th className="text-left p-4 font-medium text-gray-600">
+                  Distance
+                </th>
               </tr>
             </thead>
             <tbody className="bg-green-200">
-              <tr key={CompsData.data.subject.id}>
+              <tr key={CompsData?.data?.subject?.id}>
                 <td className="p-4">
                   <MapPin className="text-teal-600 mr-2 mt-1" size={16} />
                 </td>
@@ -310,7 +345,7 @@ const Comps = ({ ownerInfo, CompsData }) => {
                   <div className="flex items-start">
                     <div>
                       <div className="text-blue-600">
-                        {CompsData.data.subject.propertyInfo.address.label}
+                        {CompsData?.data?.subject?.propertyInfo?.address?.label}
                       </div>
                     </div>
                   </div>
@@ -318,35 +353,40 @@ const Comps = ({ ownerInfo, CompsData }) => {
                 <td className="p-4">
                   <div className="flex items-start">
                     <div>
-                      <div className="text-blue-600 px-2 py-1 rounded">Subject</div>
+                      <div className="text-blue-600 px-2 py-1 rounded">
+                        Subject
+                      </div>
                     </div>
                   </div>
                 </td>
                 <td className="p-4">--</td>
                 <td className="p-4 text-gray-600">--</td>
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.pricePerSqft
-                    ? CompsData.data.subject.propertyInfo.pricePerSqft.toLocaleString()
+                  {CompsData?.data?.subject?.propertyInfo?.pricePerSqft
+                    ? CompsData?.data?.subject?.propertyInfo?.pricePerSqft
                     : "--"}
                 </td>
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.bedrooms || "--"}
+                  {CompsData?.data?.subject?.propertyInfo?.bedrooms || "--"}
                 </td>
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.bathrooms || "--"}
+                  {CompsData?.data?.subject?.propertyInfo?.bathrooms || "--"}
                 </td>
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.livingSquareFeet
-                    ? CompsData.data.subject.propertyInfo.livingSquareFeet.toLocaleString()
+                  {CompsData?.data?.subject?.propertyInfo?.livingSquareFeet
+                    ? CompsData?.data?.subject?.propertyInfo?.livingSquareFeet
                     : "--"}
                 </td>
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.lotSquareFeet
-                    ? CompsData.data.subject.propertyInfo.lotSquareFeet.toLocaleString()
+                  {Number(CompsData?.data?.subject?.propertyInfo?.lotSquareFeet)
+                    ? Number(
+                        CompsData.data.subject.propertyInfo.lotSquareFeet
+                      ).toLocaleString("en-US")
                     : "--"}
                 </td>
+
                 <td className="p-4 text-gray-600">
-                  {CompsData.data.subject.propertyInfo.yearBuilt || "--"}
+                  {CompsData?.data?.subject?.propertyInfo?.yearBuilt || "--"}
                 </td>
                 <td className="p-4 text-gray-600">--</td>
               </tr>
@@ -354,10 +394,15 @@ const Comps = ({ ownerInfo, CompsData }) => {
               {filteredProperties.map((property) => (
                 <tr
                   key={property.id}
-                  className={`border-t ${property.isHighlighted ? "bg-green-50" : "hover:bg-gray-50"}`}
+                  className={`border-t ${
+                    property.isHighlighted ? "bg-green-50" : "hover:bg-gray-50"
+                  }`}
                 >
                   <td className="p-4">
-                    <input type="checkbox" className="rounded border-gray-300" />
+                    <input
+                      type="checkbox"
+                      className="rounded border-gray-300"
+                    />
                   </td>
                   <td className="p-4">
                     <div className="flex items-start">
@@ -371,7 +416,9 @@ const Comps = ({ ownerInfo, CompsData }) => {
                   <td className="p-4">
                     <span
                       className={`px-2 py-1 rounded text-sm ${
-                        property.status === "Sold" ? "bg-gray-200" : "bg-blue-100 text-blue-800"
+                        property.status === "Sold"
+                          ? "bg-gray-200"
+                          : "bg-blue-100 text-blue-800"
                       }`}
                     >
                       {property.status}
@@ -379,17 +426,36 @@ const Comps = ({ ownerInfo, CompsData }) => {
                   </td>
                   <td className="p-4 text-gray-600">{property.date}</td>
                   <td className="p-4 text-gray-600">
-                    {property.price === "--" ? "--" : `$${property.price.toLocaleString()}`}
+                    {property.price && property.price !== "--"
+                      ? `$${Number(property.price).toLocaleString("en-US")}`
+                      : "--"}
+                  </td>
+
+                  <td className="p-4 text-gray-600">
+                    {property.pricePerSqft && property.pricePerSqft !== "--"
+                      ? `$${Math.round(
+                          Number(property.pricePerSqft)
+                        ).toLocaleString("en-US")}`
+                      : "--"}
+                  </td>
+
+                  <td className="p-4 text-gray-600">
+                    {property.bed ? property.bed : "0"}
                   </td>
                   <td className="p-4 text-gray-600">
-                    {property.pricePerSqft === "--"
-                      ? "--"
-                      : `$${Math.round(property.pricePerSqft).toString()}`}
+                    {property.bath ? property.bath : "0"}
                   </td>
-                  <td className="p-4 text-gray-600">{property.bed ? property.bed : "0"}</td>
-                  <td className="p-4 text-gray-600">{property.bath ? property.bath : "0"}</td>
-                  <td className="p-4 text-gray-600">{property.sqft.toLocaleString()}</td>
-                  <td className="p-4 text-gray-600">{property.lotSqft.toLocaleString()}</td>
+                  <td className="p-4 text-gray-600">
+                    {property.sqft
+                      ? Number(property.sqft).toLocaleString("en-US")
+                      : "--"}
+                  </td>
+                  <td className="p-4 text-gray-600">
+                    {property.lotSqft
+                      ? Number(property.lotSqft).toLocaleString("en-US")
+                      : "--"}
+                  </td>
+
                   <td className="p-4 text-gray-600">{property.yearBuilt}</td>
                   <td className="p-4 text-gray-600">{property.distance} mi</td>
                 </tr>
@@ -403,13 +469,15 @@ const Comps = ({ ownerInfo, CompsData }) => {
           <div className="flex space-x-8">
             <div>
               <div className="text-sm text-gray-500 flex items-center">
-                Comp-Based Value <HelpCircle size={14} className="ml-1 text-gray-400" />
+                Comp-Based Value{" "}
+                <HelpCircle size={14} className="ml-1 text-gray-400" />
               </div>
               <div className="text-xl font-semibold">$0</div>
             </div>
             <div>
               <div className="text-sm text-gray-500 flex items-center">
-                Avg. Price/SqFt <HelpCircle size={14} className="ml-1 text-gray-400" />
+                Avg. Price/SqFt{" "}
+                <HelpCircle size={14} className="ml-1 text-gray-400" />
               </div>
               <div className="text-xl font-semibold">$0</div>
             </div>
