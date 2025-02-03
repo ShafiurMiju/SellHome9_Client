@@ -151,17 +151,10 @@ const PropertySearch = () => {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 bg-white p-4 flex justify-between items-center">
         <div className="flex items-center gap-8">
-          <div className="text-teal-600 font-bold text-xl">Home Sell 9</div>
+          {/*<div className="text-teal-600 font-bold text-xl">Home Sell 9</div>*/}
           <div className="flex gap-4">
-            <Link
-              to="/who-we-serve"
-              className="text-gray-600 hover:text-teal-600"
-            >
-              Who We Serve
-            </Link>
-            <Link to="/reviews" className="text-gray-600 hover:text-teal-600">
-              Reviews
-            </Link>
+            {/*<Linkto="/who-we-serve"className="text-gray-600 hover:text-teal-600">Who We Serve</Link>*/}
+             {/*<Link to="/reviews" className="text-gray-600 hover:text-teal-600">Reviews</Link>*/}
             <Link to="/dealCheck" className="text-gray-600 hover:text-teal-600">
               Deal Check
             </Link>
