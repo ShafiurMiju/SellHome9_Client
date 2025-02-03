@@ -22,6 +22,7 @@ import Loading from "../component/Loading";
 import Comps from "../component/comps";
 import LowCreditModal from "../component/LowCreditModal";
 import PropertyHistory from "../component/PropertyHistory";
+import Market from "../component/Market";
 
 const OwnerPortfolioView = () => {
   const location = useLocation();
@@ -297,15 +298,33 @@ const OwnerPortfolioView = () => {
   };
 
   const handleHistoryTabClick = () => {
-    try{
+    try {
       setLoading(true);
       setActiveTab("history");
       setLoading(false);
-
-    }catch(err){
+    } catch (err) {
       console.error("Error during search:", err.message);
     }
-  }
+  };
+  // const handleMarketClick = () => {
+  //   try{
+  //     setLoading(true);
+  //     setActiveTab("market");
+  //     setLoading(false);
+
+  //   }catch(err){
+  //     console.error("Error during search:", err.message);
+  //   }
+  // }
+  const handleMarketClick = () => {
+    try {
+      setLoading(true);
+      setActiveTab("market");
+      setLoading(false);
+    } catch (err) {
+      console.error("Error during search:", err.message);
+    }
+  };
 
   const cancelPopup = () => {
     setShowPropertyPopup(false); // Close the popup without making the API call
@@ -370,7 +389,15 @@ const OwnerPortfolioView = () => {
             >
               History
             </button>
-            <button className="px-4 py-2 text-gray-500 hover:text-gray-700">
+            <button
+              onClick={() => handleMarketClick()}
+              // className="px-4 py-2 text-gray-500 hover:text-gray-700"
+              className={`px-4 py-2 ${
+                activeTab === "market"
+                  ? "text-teal-600 border-b-2 border-teal-600"
+                  : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
               Market
             </button>
           </div>
@@ -420,7 +447,8 @@ const OwnerPortfolioView = () => {
       )}
 
       {activeTab === "property" && <Property property={output} />}
-      {activeTab === "history" && <PropertyHistory history={output}/>}
+      {activeTab === "history" && <PropertyHistory history={output} />}
+      {activeTab === "market" && <Market />}
 
       {/* Confirmation Popup */}
       {showSkipTracePopup && (
