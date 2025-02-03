@@ -143,6 +143,9 @@ const Comps = ({ ownerInfo, CompsData }) => {
   // State for filtered properties
   const [filteredProperties, setFilteredProperties] = useState(properties);
 
+  // State for selected rows
+  const [selectedRows, setSelectedRows] = useState(new Set());
+
   // Function to toggle dropdown
   const toggleDropdown = (dropdownName) => {
     setOpenDropdown((prev) => (prev === dropdownName ? null : dropdownName));
@@ -228,6 +231,83 @@ const Comps = ({ ownerInfo, CompsData }) => {
     CompsData.data.subject.propertyInfo,
   ]);
 
+  // Toggle all rows
+  const toggleAllRows = () => {
+    if (selectedRows.size === filteredProperties.length) {
+      setSelectedRows(new Set()); // Deselect all
+    } else {
+      const allIds = filteredProperties.map((property) => property.id);
+      setSelectedRows(new Set(allIds)); // Select all
+    }
+  };
+
+  // Toggle single row
+  const toggleRow = (id) => {
+    const newSelectedRows = new Set(selectedRows);
+    if (newSelectedRows.has(id)) {
+      newSelectedRows.delete(id); // Deselect
+    } else {
+      newSelectedRows.add(id); // Select
+    }
+    setSelectedRows(newSelectedRows);
+  };
+
+  // Download CSV
+  const downloadCSV = () => {
+    const selectedProperties = filteredProperties.filter((property) =>
+      selectedRows.has(property.id)
+    );
+
+    if (selectedProperties.length === 0) {
+      alert("No rows selected!");
+      return;
+    }
+
+    const headers = [
+      "Address",
+      "City",
+      "State Zip",
+      "Status",
+      "Date",
+      "Price",
+      "Price/SqFt",
+      "Bed",
+      "Bath",
+      "SqFt",
+      "Lot SqFt",
+      "Year Built",
+      "Distance",
+    ];
+
+    const rows = selectedProperties.map((property) => [
+      property.address,
+      property.status,
+      property.date,
+      property.price,
+      property.pricePerSqft,
+      property.bed,
+      property.bath,
+      property.sqft,
+      property.lotSqft,
+      property.yearBuilt,
+      property.distance,
+    ]);
+
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      headers.join(",") +
+      "\n" +
+      rows.map((row) => row.join(",")).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "selected_properties.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="container mx-auto p-4">
@@ -302,7 +382,14 @@ const Comps = ({ ownerInfo, CompsData }) => {
           <table className="min-w-full">
             <thead>
               <tr className="bg-gray-50 border-b">
-                <th className="w-8 p-4"></th>
+                <td className="p-4">
+                  <input
+                    type="checkbox"
+                    className="rounded border-gray-300"
+                    checked={selectedRows.size === filteredProperties.length}
+                    onChange={toggleAllRows}
+                  />
+                </td>
                 <th className="text-left p-4 font-medium text-gray-600">
                   Address
                 </th>
@@ -402,6 +489,8 @@ const Comps = ({ ownerInfo, CompsData }) => {
                     <input
                       type="checkbox"
                       className="rounded border-gray-300"
+                      checked={selectedRows.has(property.id)}
+                      onChange={() => toggleRow(property.id)}
                     />
                   </td>
                   <td className="p-4">
@@ -486,7 +575,10 @@ const Comps = ({ ownerInfo, CompsData }) => {
             <button className="px-4 py-2 bg-gray-100 rounded flex items-center text-gray-600">
               <Download size={16} className="mr-2" /> Download PDF
             </button>
-            <button className="px-4 py-2 bg-gray-100 rounded flex items-center text-gray-600">
+            <button
+              className="px-4 py-2 bg-gray-100 rounded flex items-center text-gray-600"
+              onClick={downloadCSV}
+            >
               <Download size={16} className="mr-2" /> Download CSV
             </button>
           </div>
