@@ -17,6 +17,9 @@ const LoginGHL = () => {
     if (email && password) {
       handleLogin(email, password);
     }
+    else{
+      navigate("/")
+    }
   }, [searchParams]);
 
   const handleLogin = async (email, password) => {

@@ -80,7 +80,7 @@ const OwnerPortfolioView = () => {
     if (storedUser && storedUser.id) {
       fetchUserInfo(storedUser.id); // Fetch user info using the stored userId
     } else {
-      setError("User ID not found in local storage.");
+      navigate("/")
     }
   }, []); // Empty dependency array ensures this runs only once on page load
 

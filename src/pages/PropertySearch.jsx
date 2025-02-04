@@ -11,8 +11,10 @@ import {
   FaMapMarkerAlt,
   FaBars,
 } from "react-icons/fa"; // Icons for the menu
+import { AlertCircle, PhoneCall } from "lucide-react";
+import loginFail from "../assets/login_fail.avif";
 
-import icon  from "../assets/icon.png";
+import icon from "../assets/icon.png";
 
 const PropertySearch = () => {
   const [searchInput, setSearchInput] = useState("");
@@ -64,6 +66,7 @@ const PropertySearch = () => {
       fetchUserInfo(storedUser.id);
     } else {
       setError("User ID not found in local storage.");
+      navigate("/")
     }
   }, []);
 
@@ -156,11 +159,7 @@ const PropertySearch = () => {
             </button>
             <div className="text-2xl font-bold text-[#286E69] flex items-center gap-2">
               <Link to="/property-search">
-                <img
-                  src={icon}
-                  alt="Sell Home"
-                  className="w-10 h-auto"
-                />
+                <img src={icon} alt="Sell Home" className="w-10 h-auto" />
               </Link>
             </div>
           </div>
@@ -276,7 +275,7 @@ const PropertySearch = () => {
           )}
         </div>
 
-        {error && <p className="text-red-500 mt-4">{error}</p>}
+        {/* {error && <p className="text-red-500 mt-4">{error}</p>} */}
       </div>
 
       {/* Low Credit Modal */}
