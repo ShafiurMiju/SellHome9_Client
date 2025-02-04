@@ -420,6 +420,7 @@ const OwnerPortfolioView = () => {
           </div>
         </div>
       </div>
+      
 
       {/* Tabs Content */}
 

@@ -1,33 +1,21 @@
 import React from 'react';
+import { Home } from 'lucide-react';
 
 const Loading = () => {
-    return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
-        <div className="flex flex-col items-center">
-          <svg
-            className="animate-spin h-8 w-8 text-white"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-          >
-            <circle
-              className="opacity-25"
-              cx="12"
-              cy="12"
-              r="10"
-              stroke="currentColor"
-              strokeWidth="4"
-            ></circle>
-            <path
-              className="opacity-75"
-              fill="currentColor"
-              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-            ></path>
-          </svg>
-          <p className="text-white mt-4">Loading...</p>
+  return (
+    <div className="fixed inset-0 bg-slate-900 bg-opacity-70 flex items-center justify-center z-20 transition-opacity duration-500 opacity-100">
+      <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-xl space-y-4 transform transition-all duration-500 scale-95 hover:scale-100">
+        <div className="relative animate-pulse">
+          <Home className="w-14 h-14 text-blue-600 animate-bounce" />
+          <div className="absolute inset-0 animate-spin">
+            <div className="h-2 w-2 bg-blue-600 rounded-full absolute top-0 left-1/2 transform -translate-x-1/2"></div>
+          </div>
         </div>
+        <p className="text-gray-700 mt-4 font-semibold text-lg">We're Finding Your Dream Home!</p>
+        <p className="text-gray-500 text-sm mt-2">Hang tight while we load your properties...</p>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Loading;

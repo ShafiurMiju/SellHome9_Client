@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { data, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Loading from "../component/Loading";
 import LowCreditModal from "../component/LowCreditModal";
+import {
+  FaHome,
+  FaSearch,
+  FaCoins,
+  FaChartLine,
+  FaUser,
+  FaMapMarkerAlt,
+  FaBars,
+} from "react-icons/fa"; // Icons for the menu
 
 const PropertySearch = () => {
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [suggestions, setSuggestions] = useState([]);
-  const [userInfo, setUserInfo] = useState(null); // User information
+  const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(false);
-
-  const [showCreditPopup, setShowCreditPopup] = useState(false); // Comps popup visibility
-
-  useEffect(() => {
-    if (isOpen) {
-      // Dynamically load the script when the popup is open
-      const script = document.createElement("script");
-      script.src = "https://link.msgsndr.com/js/form_embed.js";
-      script.async = true;
-      document.body.appendChild(script);
-
-      // Clean up the script on component unmount
-      return () => {
-        document.body.removeChild(script);
-      };
-    }
-  }, [isOpen]);
+  const [showCreditPopup, setShowCreditPopup] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
 
   const userId = JSON.parse(localStorage.getItem("user"));
 
@@ -37,12 +30,15 @@ const PropertySearch = () => {
     setError(null);
 
     try {
-      const response = await fetch(`https://sell-home9-server.vercel.app/api/user/${id}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://sell-home9-server.vercel.app/api/user/${id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -50,12 +46,12 @@ const PropertySearch = () => {
       }
 
       const data = await response.json();
-      setUserInfo(data.data); // Set user info if successful
+      setUserInfo(data.data);
     } catch (err) {
       console.error("Error fetching user info:", err.message);
       setError(err.message);
     } finally {
-      setLoading(false); // Stop loading indicator
+      setLoading(false);
     }
   };
 
@@ -63,22 +59,25 @@ const PropertySearch = () => {
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.id) {
-      fetchUserInfo(storedUser.id); // Fetch user info using the stored userId
+      fetchUserInfo(storedUser.id);
     } else {
       setError("User ID not found in local storage.");
     }
-  }, []); // Empty dependency array ensures this runs only once on page load
+  }, []);
 
   // Fetch autocomplete suggestions
   const fetchSuggestions = async (input) => {
     try {
-      const response = await fetch("https://sell-home9-server.vercel.app/api/autocomplete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ search: input }),
-      });
+      const response = await fetch(
+        "https://sell-home9-server.vercel.app/api/autocomplete",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ search: input }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch suggestions");
@@ -95,7 +94,6 @@ const PropertySearch = () => {
     const input = e.target.value;
     setSearchInput(input);
 
-    // Fetch autocomplete suggestions if input is at least 5 characters
     if (input.length >= 5) {
       fetchSuggestions(input);
     } else {
@@ -125,15 +123,11 @@ const PropertySearch = () => {
 
       const data = await response.json();
 
-      console.log(data);
-
       if (data.message === "Insufficient Credit") {
-        setShowCreditPopup(true); // Show the confirmation popup
-
+        setShowCreditPopup(true);
         return;
       }
 
-      // Navigate to the results page with the API response
       navigate("/property", { state: { data } });
     } catch (err) {
       console.error("Error during search:", err.message);
@@ -144,65 +138,120 @@ const PropertySearch = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-800/90 flex flex-col items-center pt-16 pb-32 relative">
+    <div className="min-h-screen bg-gradient-to-r from-[#286E69] to-[#6C963E] flex flex-col items-center pt-24 pb-16 relative">
       {/* Loading Overlay */}
       {loading && <Loading />}
 
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 bg-white p-4 flex justify-between items-center">
-        <div className="flex items-center gap-8">
-          {/*<div className="text-teal-600 font-bold text-xl">Home Sell 9</div>*/}
-          <div className="flex gap-4">
-            {/*<Linkto="/who-we-serve"className="text-gray-600 hover:text-teal-600">Who We Serve</Link>*/}
-             {/*<Link to="/reviews" className="text-gray-600 hover:text-teal-600">Reviews</Link>*/}
-            <Link to="/dealCheck" className="text-gray-600 hover:text-teal-600">
-              Deal Check
-            </Link>
-            <Link to="/creditPurchase"
-              className="text-gray-600 hover:text-teal-600"
+      <nav className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md p-4 flex justify-between items-center shadow-lg z-50 sm:px-20">
+        <div className="flex gap-5">
+          <div className="flex items-center gap-4">
+            <button
+              className="lg:hidden text-gray-700 hover:text-[#286E69] transition duration-300"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              Buy Credit
+              <FaBars className="text-2xl" /> {/* Hamburger menu icon */}
+            </button>
+            <div className="text-2xl font-bold text-[#286E69] flex items-center gap-2">
+              <Link to="/property-search">
+                <img
+                  src="src/assets/icon.png"
+                  alt="Sell Home"
+                  className="w-10 h-auto"
+                />
+              </Link>
+            </div>
+          </div>
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex gap-6">
+            <Link
+              to="/dealCheck"
+              className="text-gray-700 hover:text-[#286E69] transition duration-300 flex items-center gap-2"
+            >
+              <FaChartLine /> {/* Deal Check icon */}
+              <span>Deal Check</span>
+            </Link>
+            <Link
+              to="/creditPurchase"
+              className="text-gray-700 hover:text-[#286E69] transition duration-300 flex items-center gap-2"
+            >
+              <FaCoins /> {/* Buy Credit icon */}
+              <span>Buy Credit</span>
             </Link>
           </div>
         </div>
-        <div className="flex gap-4">
-          <button className="text-gray-600 hover:text-teal-600">
-            Credit:{" "}
-            {userInfo && userInfo.credit ? userInfo.credit : "Loading..."}
+
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="lg:hidden absolute top-16 left-0 right-0 bg-white/90 backdrop-blur-md p-4 shadow-lg">
+            <Link
+              to="/dealCheck"
+              className="block text-gray-700 hover:text-[#286E69] transition duration-300 py-2"
+            >
+              <FaChartLine className="inline-block mr-2" /> Deal Check
+            </Link>
+            <Link
+              to="/creditPurchase"
+              className="block text-gray-700 hover:text-[#286E69] transition duration-300 py-2"
+            >
+              <FaCoins className="inline-block mr-2" /> Buy Credit
+            </Link>
+          </div>
+        )}
+
+        {/* User Info */}
+        <div className="flex gap-4 items-center">
+          <button className="bg-gradient-to-r from-[#286E69] to-[#1E4D45] text-white px-6 py-3 rounded-full hover:from-[#1E4D45] hover:to-[#286E69] transition duration-300 flex items-center gap-3 shadow-lg">
+            <FaCoins className="text-lg" /> {/* Credit icon */}
+            <span className="font-medium">
+              Credit: {userInfo?.credit ?? "Loading..."}
+            </span>
           </button>
+          {/* 
+          <Link
+            to=""
+            className="text-gray-700 hover:text-[#286E69] transition duration-300"
+          >
+            <FaUser className="text-2xl" /> 
+          </Link> */}
         </div>
       </nav>
 
       {/* Main Content */}
       <div className="text-center px-4 mt-16">
-        <h1 className="text-white text-5xl font-bold mb-4">
-          Smart Moves for a Stress-Free
+        <h1 className="text-white text-3xl sm:text-5xl font-bold mb-4">
+          Find Your Dream Property
         </h1>
-        <h1 className="text-white text-5xl font-bold mb-8">Home Sale</h1>
-        <p className="text-white text-xl mb-8">
-          Search 157+ Million MLS & Off-Market Properties.
-          <span className="bg-teal-400 text-white px-3 py-1 ml-2 rounded">
-            100% Free.
-          </span>
+        <p className="text-white text-lg sm:text-xl mb-8">
+          Discover the perfect home with our advanced property search.
         </p>
 
         {/* Search Form */}
-        <div className="flex flex-col gap-2 max-w-4xl mx-auto relative">
-          <input
-            type="text"
-            value={searchInput}
-            onChange={handleInputChange}
-            placeholder="Address, city, county, state, zip code, or APN"
-            className="w-full px-4 py-3 rounded border border-gray-300 focus:outline-none focus:border-teal-500"
-          />
+        <div className="flex flex-col gap-2 max-w-4xl mx-auto w-full relative">
+          <div className="relative">
+            <FaMapMarkerAlt className="text-[24px] absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />{" "}
+            {/* Search icon */}
+            <input
+              type="text"
+              value={searchInput}
+              onChange={handleInputChange}
+              placeholder="Enter an address, city, or ZIP code"
+              className={`w-full px-12 text-[16px] sm:text-[18px] py-4 sm:py-5 ${
+                suggestions.length > 0 ? "rounded-t-3xl" : "rounded-3xl"
+              } border border-gray-300 focus:outline-none focus:ring-0 focus:ring-[#ffffff] focus:border-transparent shadow-sm`}
+            />
+            <FaSearch className="text-[24px] absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" />{" "}
+            {/* Search icon */}
+          </div>
 
           {/* Suggestions Dropdown */}
           {suggestions.length > 0 && (
-            <ul className="absolute bg-white border border-gray-300 rounded w-full mt-[3.25rem] shadow-md max-h-[280px] overflow-y-auto z-10">
+            <ul className="absolute bg-white border border-gray-200 rounded-b-lg w-full shadow-lg max-h-[280px] overflow-y-auto z-10 top-full">
               {suggestions.map((item, index) => (
                 <li
                   key={index}
-                  className="px-4 py-2 hover:bg-teal-500 hover:text-white cursor-pointer"
+                  className="px-6 py-4 hover:bg-blue-50 cursor-pointer transition duration-200"
                   onClick={() =>
                     handleSelectAddress({
                       fulladdress: {
@@ -215,7 +264,7 @@ const PropertySearch = () => {
                     })
                   }
                 >
-                  {item.title}
+                  <div className="font-medium text-gray-800">{item.title}</div>
                   <div className="text-sm text-gray-500">
                     {item.city}, {item.state} {item.zip}
                   </div>
@@ -228,13 +277,13 @@ const PropertySearch = () => {
         {error && <p className="text-red-500 mt-4">{error}</p>}
       </div>
 
+      {/* Low Credit Modal */}
       {showCreditPopup && (
         <LowCreditModal
           isOpen={showCreditPopup}
           onClose={() => setShowCreditPopup(false)}
         />
       )}
-
     </div>
   );
 };

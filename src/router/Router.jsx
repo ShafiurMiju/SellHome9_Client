@@ -8,6 +8,7 @@ import Reviews from "../pages/Reviews";
 import PropertySearch from "../pages/PropertySearch";
 import DealCheck from "../pages/DealCheck";
 import CreditPurchase from "../pages/creditPurchase";
+import LoginGHL from "../pages/LoginGHL";
 // import Coms from "../pages/Coms";
 // import Test from "../pages/FullDropDown";
 // import PropertyHistory from "../pages/PropertyHistory";
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <LoginForm />,
+  },
+  {
+    path: "/ghl",
+    element: <LoginGHL />,
   },
   {
     path: "/property",
