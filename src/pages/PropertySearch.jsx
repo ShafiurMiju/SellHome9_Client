@@ -12,6 +12,8 @@ import {
   FaBars,
 } from "react-icons/fa"; // Icons for the menu
 
+import icon  from "../assets/icon.png";
+
 const PropertySearch = () => {
   const [searchInput, setSearchInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -155,7 +157,7 @@ const PropertySearch = () => {
             <div className="text-2xl font-bold text-[#286E69] flex items-center gap-2">
               <Link to="/property-search">
                 <img
-                  src="src/assets/icon.png"
+                  src={icon}
                   alt="Sell Home"
                   className="w-10 h-auto"
                 />
