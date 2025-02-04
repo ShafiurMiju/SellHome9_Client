@@ -175,11 +175,11 @@ const PropertySearch = () => {
               <span>Deal Check</span>
             </Link>
             <Link
-              to="/creditPurchase"
+              to="/ghl?email=miju@gmail.com&password=112233"
               className="text-gray-700 hover:text-[#286E69] transition duration-300 flex items-center gap-2"
             >
               <FaCoins /> {/* Buy Credit icon */}
-              <span>Buy Credit</span>
+              <span>login</span>
             </Link>
           </div>
         </div>
