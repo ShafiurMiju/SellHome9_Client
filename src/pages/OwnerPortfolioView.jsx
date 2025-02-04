@@ -79,8 +79,6 @@ const OwnerPortfolioView = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.id) {
       fetchUserInfo(storedUser.id); // Fetch user info using the stored userId
-    } else {
-      navigate("/")
     }
   }, []); // Empty dependency array ensures this runs only once on page load
 
@@ -105,7 +103,7 @@ const OwnerPortfolioView = () => {
   const output = data?.data?.data || {};
   const { ownerInfo } = data?.data?.data?.data || {};
 
-  const payload = { fulladdress: output.input, id: userId.id };
+  const payload = { fulladdress: output?.input, id: userId?.id };
 
   const handleSkipTrace = async () => {
     setShowSkipTracePopup(true); // Show the confirmation popup

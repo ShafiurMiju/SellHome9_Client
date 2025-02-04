@@ -11,8 +11,6 @@ import {
   FaMapMarkerAlt,
   FaBars,
 } from "react-icons/fa"; // Icons for the menu
-import { AlertCircle, PhoneCall } from "lucide-react";
-import loginFail from "../assets/login_fail.avif";
 
 import icon from "../assets/icon.png";
 
@@ -64,9 +62,6 @@ const PropertySearch = () => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.id) {
       fetchUserInfo(storedUser.id);
-    } else {
-      setError("User ID not found in local storage.");
-      navigate("/")
     }
   }, []);
 
@@ -191,12 +186,6 @@ const PropertySearch = () => {
               className="block text-gray-700 hover:text-[#286E69] transition duration-300 py-2"
             >
               <FaChartLine className="inline-block mr-2" /> Deal Check
-            </Link>
-            <Link
-              to="/creditPurchase"
-              className="block text-gray-700 hover:text-[#286E69] transition duration-300 py-2"
-            >
-              <FaCoins className="inline-block mr-2" /> Buy Credit
             </Link>
           </div>
         )}

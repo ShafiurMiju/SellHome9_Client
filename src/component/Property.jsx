@@ -1,7 +1,30 @@
-import { Bath, Bed, ChevronDown, ChevronUp, SquareIcon } from "lucide-react";
+import { Bath, Bed, ChevronDown, ChevronUp, SquareIcon , AlertCircle , PhoneCall } from "lucide-react";
 import React, { useState } from "react";
+import loginFail from "../assets/login_fail.avif"
+
 
 const Property = ({ property }) => {
+  if(property?.statusCode == 404){
+    return(
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="text-center bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 w-96">
+          <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex flex-col items-center">
+            <div className="flex items-center">
+              <AlertCircle className="mr-2 text-red-500" />
+              <span className="uppercase"></span>
+            </div>
+            <img src={loginFail} alt="No User Found" className="mt-5 rounded" />
+            <button
+              onClick={() => (window.location.href = "tel:+1234567890")}
+              className="mt-5 px-4 py-2 bg-green-500 text-white rounded-lg flex items-center hover:bg-green-600"
+            >
+              <PhoneCall className="mr-2" /> Call Support
+            </button>
+          </div>
+        </div>
+      </div>
+    )
+  }
   const { data } = property || {};
   const { currentMortgages } = property?.data || {};
   const { propertyInfo } = property?.data || {};
@@ -10,10 +33,10 @@ const Property = ({ property }) => {
   // console.log(propertyInfo);
 
   const properties = {
-    address: propertyInfo.address.address,
-    city: propertyInfo.address.city,
-    state: propertyInfo.address.state,
-    zip: propertyInfo.address.zip,
+    address: propertyInfo?.address?.address,
+    city: propertyInfo?.address?.city,
+    state: propertyInfo?.address?.state,
+    zip: propertyInfo?.address?.zip,
     price: data?.estimatedValue?.toLocaleString(),
     beds: propertyInfo?.bedrooms,
     baths: propertyInfo?.bathrooms,
@@ -24,7 +47,7 @@ const Property = ({ property }) => {
       {
         label: "Last Recording Date",
         value: currentMortgages[0]?.recordingDate
-          ? new Date(currentMortgages[0].recordingDate).toLocaleDateString(
+          ? new Date(currentMortgages[0]?.recordingDate)?.toLocaleDateString(
               "en-US"
             )
           : "N/A",
