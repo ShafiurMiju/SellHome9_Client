@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../component/Loading";
 import { AlertCircle, PhoneCall } from "lucide-react";
+import loginFail from "../assets/login_fail.avif"
 
 const LoginGHL = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const LoginGHL = () => {
               <AlertCircle className="mr-2 text-red-500" />
               <span className="uppercase">{errorMessage}</span>
             </div>
-            <img src="src/assets/login_fail.avif" alt="No User Found" className="mt-5 rounded" />
+            <img src={loginFail} alt="No User Found" className="mt-5 rounded" />
             <button
               onClick={() => window.location.href = "tel:+1234567890"}
               className="mt-5 px-4 py-2 bg-green-500 text-white rounded-lg flex items-center hover:bg-green-600"
