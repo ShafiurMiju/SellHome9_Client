@@ -20,15 +20,12 @@ const LoginGHL = () => {
     if (email && password) {
       handleLogin(email, password);
     } else {
-      console.warn("⚠ Missing email or password. Redirecting in 5s...");
-      setTimeout(() => navigate("/"), 5000); // Delay redirection for debugging
+      setTimeout(() => navigate("/error"), 5000); // Delay redirection for debugging
     }
   }, [searchParams]);
 
   const handleLogin = async (email, password) => {
     setLoading(true);
-    console.log("🚀 Attempting login with:", { email, password });
-    console.log("🌍 API URL:", API_URL);
 
     try {
       const response = await fetch(`${API_URL}/api/login`, {
@@ -39,21 +36,17 @@ const LoginGHL = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      console.log("📡 API Response Status:", response.status);
 
       if (response.ok) {
         const result = await response.json();
         localStorage.setItem("token", result?.token);
         localStorage.setItem("user", JSON.stringify(result?.user));
-        console.log("✅ Login Successful! Redirecting...");
         navigate("/property-search");
       } else {
         const error = await response.json();
-        console.error("❌ Login Failed:", error);
         setErrorMessage(error.message || "Login failed");
       }
     } catch (err) {
-      console.error("❌ API Error:", err);
       setErrorMessage("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
@@ -66,7 +59,7 @@ const LoginGHL = () => {
         {loading ? (
           <Loading />
         ) : (
-          <h1 className="text-2xl font-bold text-gray-700">Login</h1>
+          <h1 className="text-2xl font-bold text-gray-700"></h1>
         )}
         {errorMessage && (
           <div className="mt-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg flex flex-col items-center">

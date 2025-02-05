@@ -25,7 +25,7 @@ const NotFound = () => {
 
       {/* Navigation Button */}
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/error")}
         className="px-6 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg shadow-lg hover:bg-blue-600 transition"
       >
         Go Home

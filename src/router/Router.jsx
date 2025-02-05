@@ -7,6 +7,7 @@ import OwnerPortfolioView from "../pages/OwnerPortfolioView";
 import PropertySearch from "../pages/PropertySearch";
 import DealCheck from "../pages/DealCheck";
 import NotFound from "../pages/NotFound";
+import LoginError from "../pages/LoginError";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
   {
     path: "/ghl",
     element: <AuthRedirect element={<LoginGHL />} />,
+  },
+  {
+    path: "/error",
+    element: <AuthRedirect element={<LoginError />} />,
   },
   {
     path: "/property-search",
