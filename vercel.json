@@ -1,0 +1,13 @@
+{
+    "rewrites": [
+      {
+        "source": "/ghl",
+        "destination": "/index.html"
+      },
+      {
+        "source": "/ghl/:path*",
+        "destination": "/index.html"
+      }
+    ]
+  }
+  
