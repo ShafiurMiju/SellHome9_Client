@@ -16,6 +16,8 @@ const schema = yup.object().shape({
 const LoginForm = () => {
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const {
     register,
     handleSubmit,
@@ -26,7 +28,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await fetch("https://sell-home9-server.vercel.app/api/login", {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
