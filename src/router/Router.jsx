@@ -6,6 +6,7 @@ import LoginGHL from "../pages/LoginGHL";
 import OwnerPortfolioView from "../pages/OwnerPortfolioView";
 import PropertySearch from "../pages/PropertySearch";
 import DealCheck from "../pages/DealCheck";
+import NotFound from "../pages/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/dealCheck",
     element: <ProtectedRoute element={<DealCheck />} />,
+  },
+  {
+    path: "/*",
+    element: <ProtectedRoute element={<NotFound />} />,
   },
 ]);
 
