@@ -3,6 +3,7 @@ import LoginForm from "../pages/LoginForm";
 import OwnerPortfolioView from "../pages/OwnerPortfolioView";
 import PropertySearch from "../pages/PropertySearch";
 import DealCheck from "../pages/DealCheck";
+import LoginParam from "../pages/LoginParam";
 import LoginGHL from "../pages/LoginGHL";
 
 const ProtectedRoute = ({ element }) => {
@@ -16,7 +17,11 @@ const router = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: "/ghl",
+    path: "/param/?email&password",
+    element: <LoginParam />,
+  },
+  {
+    path: "/ghl/:email/:password",
     element: <LoginGHL />,
   },
   {

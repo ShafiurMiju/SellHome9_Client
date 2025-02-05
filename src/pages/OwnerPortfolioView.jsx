@@ -340,7 +340,6 @@ const OwnerPortfolioView = () => {
   return (
     <div className="max-w-6xl mx-auto p-4">
       {/* Navigation */}
-
       <div className="border-b mb-6">
         <div className="flex justify-between items-center">
           <div className="flex gap-8">
@@ -412,7 +411,7 @@ const OwnerPortfolioView = () => {
             </button> */}
             <button
               onClick={() => navigate("/property-search")}
-              className="p-2 hover:bg-gray-100 rounded"
+              className="p-2 hover:bg-gray-100 rounded text-red-600"
             >
               <X size={20} />
             </button>

@@ -7,11 +7,15 @@ import { useNavigate } from "react-router-dom";
 import { API_URL } from "../baseurl";
 
 const schema = yup.object().shape({
-  email: yup.string().email("Invalid email").required("Email is required"),
-  password: yup
+  email: yup
     .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
+    .trim()
+    .email("Invalid email") // Ensures it follows email structure
+    .required("Email is required")
+    .test("is-email", "Invalid email format", (value) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value || "")
+    ),
+  password: yup.string().required("Password is required"),
 });
 
 const LoginForm = () => {
@@ -35,21 +39,12 @@ const LoginForm = () => {
         body: JSON.stringify(data),
       });
 
-      
-
       if (response.ok) {
         const result = await response.json();
-
-        console.log("Response Message", result)
-        
-
         toast.success("Login successful!");
         localStorage.setItem("token", result?.token); // Save token
-        localStorage.setItem("user", JSON.stringify(result?.user)); // Save token
-        console.log(result); // Replace with navigation logic if needed
-
-        // Navigate to PropertySearch
-        navigate("/property-search");
+        localStorage.setItem("user", JSON.stringify(result?.user)); // Save user data
+        navigate("/property-search"); // Navigate to PropertySearch
       } else {
         const error = await response.json();
         toast.error(error.message || "Login failed");
@@ -61,22 +56,31 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div
+      className="flex justify-center items-center min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80')`,
+      }}
+    >
       {/* Toast Notifications */}
       <ToastContainer />
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="bg-white bg-opacity-90 backdrop-blur-sm shadow-2xl rounded-lg px-8 pt-10 pb-8 mb-4 w-full max-w-md"
+        noValidate
       >
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold">Login</h1>
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">Welcome Back</h1>
+          <p className="text-gray-600 mt-2">
+            Sign in to explore exclusive properties.
+          </p>
         </div>
 
         {/* Email Field */}
-        <div className="mb-4">
+        <div className="mb-6">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 text-sm font-semibold mb-2"
             htmlFor="email"
           >
             Email
@@ -86,7 +90,7 @@ const LoginForm = () => {
             id="email"
             type="email"
             placeholder="name@example.com"
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+            className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent ${
               errors.email ? "border-red-500" : ""
             }`}
           />
@@ -96,9 +100,9 @@ const LoginForm = () => {
         </div>
 
         {/* Password Field */}
-        <div className="mb-4">
+        <div className="mb-8">
           <label
-            className="block text-gray-700 text-sm font-bold mb-2"
+            className="block text-gray-700 text-sm font-semibold mb-2"
             htmlFor="password"
           >
             Password
@@ -108,7 +112,7 @@ const LoginForm = () => {
             id="password"
             type="password"
             placeholder="Password"
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+            className={`shadow appearance-none border rounded-lg w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent ${
               errors.password ? "border-red-500" : ""
             }`}
           />
@@ -123,10 +127,23 @@ const LoginForm = () => {
         <div>
           <button
             type="submit"
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full"
+            className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 w-full transition duration-300"
           >
             Log in
           </button>
+        </div>
+
+        {/* Additional Links */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-600">
+            Don't have an account?{" "}
+            <a
+              href=""
+              className="text-teal-600 hover:text-teal-700 font-semibold"
+            >
+              Sign up
+            </a>
+          </p>
         </div>
       </form>
     </div>
