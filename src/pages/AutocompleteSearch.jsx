@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../baseurl";
 
 const AutocompleteSearch = () => {
   const [query, setQuery] = useState("");
@@ -13,7 +14,7 @@ const AutocompleteSearch = () => {
       setError(null);
 
       // Make API call to fetch suggestions
-      const response = await axios.post("https://sell-home9-server.vercel.app/api/autocomplete", {
+      const response = await axios.post(`${API_URL}/api/autocomplete`, {
         search: input,
       });
 

@@ -11,6 +11,8 @@ import {
   FaMapMarkerAlt,
   FaBars,
 } from "react-icons/fa"; // Icons for the menu
+import { API_URL } from "../baseurl";
+
 
 import icon from "../assets/icon.png";
 
@@ -23,6 +25,7 @@ const PropertySearch = () => {
   const navigate = useNavigate();
   const [showCreditPopup, setShowCreditPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
+  
 
   const userId = JSON.parse(localStorage.getItem("user"));
 
@@ -33,7 +36,7 @@ const PropertySearch = () => {
 
     try {
       const response = await fetch(
-        `https://sell-home9-server.vercel.app/api/user/${id}`,
+        `${API_URL}/api/user/${id}`,
         {
           method: "GET",
           headers: {
@@ -69,7 +72,7 @@ const PropertySearch = () => {
   const fetchSuggestions = async (input) => {
     try {
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/autocomplete",
+        `${API_URL}/api/autocomplete`,
         {
           method: "POST",
           headers: {
@@ -107,7 +110,7 @@ const PropertySearch = () => {
 
     try {
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/property-detail",
+        `${API_URL}/api/property-detail`,
         {
           method: "POST",
           headers: {

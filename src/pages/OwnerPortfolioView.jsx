@@ -23,6 +23,7 @@ import Comps from "../component/comps";
 import LowCreditModal from "../component/LowCreditModal";
 import PropertyHistory from "../component/PropertyHistory";
 import Market from "../component/Market";
+import { API_URL } from "../baseurl";
 
 const OwnerPortfolioView = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const OwnerPortfolioView = () => {
 
     try {
       const response = await fetch(
-        `https://sell-home9-server.vercel.app/api/user/${id}`,
+        `${API_URL}/api/user/${id}`,
         {
           method: "GET",
           headers: {
@@ -158,7 +159,7 @@ const OwnerPortfolioView = () => {
       setError(null); // Reset error state before making the request
 
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/skiptrace-swap",
+        `${API_URL}/api/skiptrace-swap`,
         {
           method: "POST",
           headers: {
@@ -189,7 +190,7 @@ const OwnerPortfolioView = () => {
       setError(null); // Reset error state before making the request
 
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/skiptrace",
+        `${API_URL}/api/skiptrace`,
         {
           method: "POST",
           headers: {
@@ -230,7 +231,7 @@ const OwnerPortfolioView = () => {
       setError(null); // Reset error state before making the request
 
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/property-comps",
+        `${API_URL}/api/property-comps`,
         {
           method: "POST",
           headers: {
@@ -265,7 +266,7 @@ const OwnerPortfolioView = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        "https://sell-home9-server.vercel.app/api/check-userAction",
+        `${API_URL}/api/check-userAction`,
         {
           method: "POST",
           headers: {

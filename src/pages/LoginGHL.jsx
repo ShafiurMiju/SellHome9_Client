@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import Loading from "../component/Loading";
 import { AlertCircle, PhoneCall } from "lucide-react";
 import loginFail from "../assets/login_fail.avif"
+import { API_URL } from "../baseurl";
 
 const LoginGHL = () => {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ const LoginGHL = () => {
   const handleLogin = async (email, password) => {
     setLoading(true);
     try {
-      const response = await fetch("https://sell-home9-server.vercel.app/api/login", {
+      const response = await fetch(`${API_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

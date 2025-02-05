@@ -17,9 +17,6 @@ const schema = yup.object().shape({
 const LoginForm = () => {
   const navigate = useNavigate();
 
-  console.log("API_URL", API_URL);
-  console.log("API_URL1", import.meta.env.MODE === "development");
-
   const {
     register,
     handleSubmit,
