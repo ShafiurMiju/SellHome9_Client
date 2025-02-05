@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     element: <LoginForm />,
   },
   {
-    path: "/param/?email&password",
+    path: "/param",
     element: <LoginParam />,
   },
   {
