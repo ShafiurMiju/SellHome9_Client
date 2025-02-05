@@ -26,7 +26,7 @@ const LoginError = () => {
 
       {/* Description */}
       <p className="text-gray-600 mb-6">
-        We encountered an issue. Please use the sidebar to continue navigating.
+      We encountered an issue. Please reload the tab to continue browsing.
       </p>
 
       {/* Sidebar Button */}
