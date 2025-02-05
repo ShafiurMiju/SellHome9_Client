@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../baseurl";
 
 const schema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
@@ -15,8 +16,6 @@ const schema = yup.object().shape({
 
 const LoginForm = () => {
   const navigate = useNavigate();
-
-  const API_URL = import.meta.env.VITE_API_URL;
 
   console.log("API_URL", API_URL);
   console.log("API_URL1", import.meta.env.MODE === "development");
